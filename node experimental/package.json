@@ -1,0 +1,22 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "author": "Haru",
+  "license": "MIT",
+  "nodemonConfig": {
+    "execMap": {
+      "mjs": "node --experimental-modules"
+    }
+  },
+  "Dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.0",
+    "jsonfile-promised": "^0.0.1",
+    "nodemon": "^1.12.1",
+    "npm-run-all": "^4.1.1"
+  },
+  "scripts": {
+    "launch": "nodemon --watch"
+  }
+}
