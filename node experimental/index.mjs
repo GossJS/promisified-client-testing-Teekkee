@@ -1,34 +1,28 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import http from 'http';
-import path from 'path';
-import usersRoute from './_routes/routes';
+import users_router from './_routes/routes';
 
-const PORT = 3000;
 let App = express();
-
-/*
- * Logging
- *   ???
-**/
 
 App
 	/*
 	 * Bunch of middlewares here
 	**/
 	.use(bodyParser.json())
+	.use(express.static("./static"))
 	.use((res, req, next)=>{
-		let get_time = new Date(Date.now());
-		console.log(`Exact time is ${get_time}`);
+		let get_time = new Date(Date.now())
+		console.log(`${get_time}`)
 		next();
 	})
+
 	/*
 	 * Root routing
 	**/
 	.get("/", (req, res) => {
-		// res.sendFile("public/index.html")
-		console.log(`Action:\n\t\tIn`)
-		res.send(`Well, lets in general use this kind of braces ${PORT}`)
+		res.sendFile("index.html")
+		console.log(`Action: Root`)
 	})
 
 	/*
@@ -39,7 +33,7 @@ App
 		let a = req.body.first
 		let b = req.body.second
 		let result = Number(a) - Number(b)
-		console.log(`Action:\n\t\tArithmetic Operation - Subtraction`)
+		console.log(`Action: Arithmetic Operation - Subtraction ${result}`)
 			res.json(result)
 	})
 
@@ -50,17 +44,23 @@ App
 		let a = req.params.a
 		let b = req.params.b
 		let result = Number(a) + Number(b)
-		console.log(`Action:\n\t\tArithmetic Operation - Addition`)
+		console.log(`Action:\n\t\tArithmetic Operation - Addition ${result}`)
 			res.json(result)
 	})
 
 	/*
 	 * Callback functions
 	**/
-	.use("/users", usersRoute(express))
+	.use("/users", users_router(express))
+	.use((req, res)=>res.status(403).end(`Forbidden`))
+	.use((req, res)=>res.status(404).end(`Not found`))
+	.use((req, res)=>res.status(405).end(`Method Not Allowed`))
+  	.use((err,req,res,next)=>res.status(500).end(`Internal Server Error`))
+  	.use((err,req,res,next)=>res.status(502).end(`Bad Gateway`))
+  	.use((err,req,res,next)=>res.status(500).end(`Gateway Timeout`))
 ;
 
 http
 	.createServer(App)
-	.listen(PORT, () => console.log(`Server is up\nPort - ${PORT}`))
+	.listen(process.env.PORT || 3000, () => console.log(`${process.env.PORT} - Server is up`))
 ;
