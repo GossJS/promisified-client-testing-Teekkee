@@ -3,6 +3,12 @@ import bodyParser from 'body-parser';
 import http from 'http';
 import users_router from './_routes/routes';
 
+const CORS = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET,POST,DELETE',
+  'Access-Control-Allow-Headers': 'Content-Type, Access-Control-Allow-Headers'
+};
+
 let App = express();
 
 App
@@ -35,6 +41,10 @@ App
 		let result = Number(a) - Number(b)
 		console.log(`Action: Arithmetic Operation - Subtraction ${result}`)
 			res.json(result)
+	})
+
+	.get("/author", (req, res) => {
+		res.set(CORS).send(`<h4 id="author" title="GossJS">Яковлев Игорь</h4>`)
 	})
 
 	/*

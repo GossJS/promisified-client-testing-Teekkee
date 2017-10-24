@@ -1,22 +1,28 @@
 {
-  "name": "test",
+  "name": "esm",
   "version": "1.0.0",
   "main": "index.mjs",
   "author": "Haru",
   "license": "MIT",
+  "engines": {
+    "node": ">=8.5.0"
+  },
   "nodemonConfig": {
     "execMap": {
       "mjs": "node --experimental-modules"
     }
   },
-  "Dependencies": {
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  },
+  "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.0",
     "jsonfile-promised": "^0.0.1",
-    "nodemon": "^1.12.1",
-    "npm-run-all": "^4.1.1"
+    "mongoose": "^4.12.3"
   },
   "scripts": {
-    "launch": "nodemon --watch"
+    "start": "node --experimental-modules index.mjs",
+    "dev:start": "nodemon --watch"
   }
 }
