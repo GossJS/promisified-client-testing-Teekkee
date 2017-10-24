@@ -6,12 +6,12 @@ export default inn =>{
 	route
 		/*
 		 * Add user by proceding to `domain/users/add`
-		 * curl - d `{"login","password"}` -H 'Content-Type: application/json' -X POST http://localhost:3000/users/add
+		 * curl - d `{"login":"","password":""}` -H 'Content-Type: application/json' -X POST http://localhost:3000/users/
 		**/
-		.route("/:login/:password")
-		.get(async (req, res) => {
-			let log = req.params.login
-			let pass = req.params.password
+		.route("/")
+		.post(async (req, res) => {
+			let log = req.body.login
+			let pass = req.body.password
 			let user = {"login": log, "password": pass}
 			let data = await User.findOne(user)
 				console.log(`Action: Add user - ${log}`)
@@ -39,12 +39,17 @@ export default inn =>{
 	;
 	//Update
 	route
-		.route("/:user/:password/:new_user/:new_password")
+		/*
+		 * Update user's login and password
+		 * Ex:
+		 * 		curl - d `{"login":"", "password":"", "new_user":"", "new_password":""}` -H 'Content-Type: application/json' -X PUT http://localhost:3000/users/
+		**/
+		.route("/")
 		.put(async (req, res) => {
-			let log = req.params.user
-			let pass = req.params.password
-			let upd_n = req.params.new_user
-			let upd_p = req.params.new_password
+			let log = req.body.user
+			let pass = req.body.password
+			let upd_n = req.body.new_user
+			let upd_p = req.body.new_password
 			let upd_us = {"login": upd_n, "password": upd_p}
 			let user = {"login": log, "password": pass}
 				console.log(`Action: Update users password - ${log}`)
@@ -57,13 +62,14 @@ export default inn =>{
 	//Delete
 	route
 		/*
-		 * Remove user by proceding to `domain/user/password`
-		 * curl - d `{"login", "password"}` -H 'Content-Type: application/json' -X DELETE http://localhost:3000/users/:user/:password
+		 * Remove user
+		 * Ex:
+		 * 		curl - d `{"login":"", "password":""}` -H 'Content-Type: application/json' -X DELETE http://localhost:3000/users/
 		**/
-		.route("/del/:user/:password")
+		.route("/")
 		.delete(async (req, res) => {
-			let log = req.params.user
-			let pass = req.params.password
+			let log = req.body.user
+			let pass = req.body.password
 			let user = {"login": log, "password": pass}
 				console.log(`Action: Delete user - ${log}`)
 			await User.findOneAndRemove(user, (err, body) => {
