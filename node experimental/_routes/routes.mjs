@@ -6,7 +6,7 @@ export default inn =>{
 	route
 		/*
 		 * Add user by proceding to `domain/users/add`
-		 * curl - d `{"login":"","password":""}` -H 'Content-Type: application/json' -X POST http://localhost:3000/users/
+		 * curl - d '{"login":"","password":""}' -H 'Content-Type: application/json' -X POST http://localhost:3000/users/
 		**/
 		.route("/")
 		.post(async (req, res) => {
@@ -46,9 +46,9 @@ export default inn =>{
 		**/
 		.route("/")
 		.put(async (req, res) => {
-			let log = req.body.user
+			let log = req.body.login
 			let pass = req.body.password
-			let upd_n = req.body.new_user
+			let upd_n = req.body.new_login
 			let upd_p = req.body.new_password
 			let upd_us = {"login": upd_n, "password": upd_p}
 			let user = {"login": log, "password": pass}
@@ -68,7 +68,7 @@ export default inn =>{
 		**/
 		.route("/")
 		.delete(async (req, res) => {
-			let log = req.body.user
+			let log = req.body.login
 			let pass = req.body.password
 			let user = {"login": log, "password": pass}
 				console.log(`Action: Delete user - ${log}`)
